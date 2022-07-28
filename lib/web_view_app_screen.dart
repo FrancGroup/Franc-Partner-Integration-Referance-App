@@ -19,28 +19,31 @@ class _WebViewAppState extends State<WebViewApp> {
       Completer<WebViewController>();
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      WebView(
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webviewController) {
-          _webviewController.complete(webviewController);
-        },
-        onPageFinished: (String url) {
-          setState(
-            () {
-              this.url = url.toString();
-            },
-          );
-
-          if (url == "https://155d4d8a.franc-partner-integration.pages.dev/") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("Franc Third Party Integration Demo"),
+            centerTitle: true,
+            automaticallyImplyLeading: false),
+        body: WebView(
+          initialUrl: widget.url,
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webviewController) {
+            _webviewController.complete(webviewController);
+          },
+          onPageFinished: (String url) {
+            setState(
+              () {
+                this.url = url.toString();
+              },
             );
-          }
-        },
-      )
-    ]);
+
+            if (url == "https://partners-ui.franc.app/blank") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+            }
+          },
+        ));
   }
 }

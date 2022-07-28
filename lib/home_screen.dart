@@ -7,51 +7,60 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: Container(
-        color: Colors.white,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Hello"),
-              TextButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.all(16.0),
-                  primary: Colors.orange,
-                  backgroundColor: Colors.white,
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WebViewApp(
-                            "https://155d4d8a.franc-partner-integration.pages.dev/register")),
-                  );
-                },
-                child: Text('REGISTER'),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.all(16.0),
-                  primary: Colors.orange,
-                  backgroundColor: Colors.white,
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WebViewApp(
-                            "https://155d4d8a.franc-partner-integration.pages.dev/deposit")),
-                  );
-                },
-                child: Text('DEPOSIT'),
-              ),
-            ]),
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("Franc Third Patry Integration Demo"),
+            centerTitle: true,
+            automaticallyImplyLeading: false),
+        body: WillPopScope(
+          onWillPop: () async => true,
+          child: Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Click one of the below!",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.all(16.0),
+                      primary: Colors.orange,
+                      backgroundColor: Colors.white,
+                      textStyle: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WebViewApp(
+                                "https://partners-ui.franc.app/register")),
+                      );
+                    },
+                    child: Text('REGISTER'),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.all(16.0),
+                      primary: Colors.orange,
+                      backgroundColor: Colors.white,
+                      textStyle: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WebViewApp(
+                                "https://partners-ui.franc.app/deposit")),
+                      );
+                    },
+                    child: Text('DEPOSIT'),
+                  ),
+                ]),
+          ),
+        ));
   }
 }

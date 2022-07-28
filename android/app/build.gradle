@@ -46,6 +46,7 @@ android {
         applicationId "com.franc.franc_third_party_integration_demo"
         minSdkVersion 19
         targetSdkVersion 30
+        compileSdkVersion 31  
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
