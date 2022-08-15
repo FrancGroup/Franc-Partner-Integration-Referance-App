@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Franc Third Patry Integration Demo"),
+            title: const Text("Franc Third Party Reference Integration Demo"),
             centerTitle: true,
             automaticallyImplyLeading: false),
         body: WillPopScope(
@@ -27,10 +27,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       primary: Colors.orange,
                       backgroundColor: Colors.white,
-                      textStyle: TextStyle(fontSize: 20),
+                      textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -40,24 +40,24 @@ class HomeScreen extends StatelessWidget {
                                 "https://partners-ui.franc.app/register")),
                       );
                     },
-                    child: Text('REGISTER'),
+                    child: const Text('REGISTER'),
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       primary: Colors.orange,
                       backgroundColor: Colors.white,
-                      textStyle: TextStyle(fontSize: 20),
+                      textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WebViewApp(
-                                "https://partners-ui.franc.app/deposit")),
+                                "https://test.partners-ui.franc.app/deposit")),
                       );
                     },
-                    child: Text('DEPOSIT'),
+                    child: const Text('DEPOSIT'),
                   ),
                 ]),
           ),
