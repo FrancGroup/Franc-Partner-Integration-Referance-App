@@ -37,7 +37,7 @@ class _WebViewAppState extends State<WebViewApp> {
               },
             );
 
-            if (url == "https://partners-ui.franc.app/blank") {
+            if (url.contains("https://test.franc-partner-integration.pages.dev/blank")) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
