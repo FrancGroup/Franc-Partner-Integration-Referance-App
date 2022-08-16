@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Flutter for web",
+            "type": "dart",
+            "request": "launch",
+            "program": "mobile_app/lib/main.dart",
+            "args": [
+              "-d",
+              "chrome",
+              "--web-renderer",
+              "html"
+            ]
+        },
+        {
             "name": "mobile_app",
             "cwd": "mobile_app",
             "request": "launch",
@@ -23,6 +35,6 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
-        }
+        },
     ]
 }

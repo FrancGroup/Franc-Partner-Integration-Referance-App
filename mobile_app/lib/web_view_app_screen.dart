@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:franc_third_party_integration_demo/home_screen.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webviewx/webviewx.dart';
 
 class WebViewApp extends StatefulWidget {
   final String url;
@@ -15,8 +15,9 @@ class WebViewApp extends StatefulWidget {
 
 class _WebViewAppState extends State<WebViewApp> {
   var url = "";
-  final Completer<WebViewController> _webviewController =
-      Completer<WebViewController>();
+  final Completer<WebViewXController> _webviewController =
+      Completer<WebViewXController>();
+  late WebViewXController webviewController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,26 +25,25 @@ class _WebViewAppState extends State<WebViewApp> {
             title: const Text("Franc Third Party Integration Demo"),
             centerTitle: true,
             automaticallyImplyLeading: false),
-        body: WebView(
-          initialUrl: widget.url,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webviewController) {
-            _webviewController.complete(webviewController);
-          },
-          onPageFinished: (String url) {
-            setState(
-              () {
-                this.url = url.toString();
-              },
-            );
-
-            if (url.contains("https://test.franc-partner-integration.pages.dev/blank")) {
+        body: WebViewX(
+          initialContent: widget.url,
+          initialSourceType: SourceType.url,
+          onWebViewCreated: (controller) => webviewController = controller,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          navigationDelegate: (NavigationRequest request){
+            Uri uri = Uri.parse(request.content.source.toString());
+            if (uri.toString() == "https://partners-ui.franc.app/blank"){
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
               );
+              return NavigationDecision.prevent;
             }
-          },
-        ));
+            return NavigationDecision.navigate;
+            //Uri uri = Uri.parse(request.content);
+          }
+        ),
+    );
   }
 }
