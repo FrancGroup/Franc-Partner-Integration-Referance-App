@@ -1,8 +1,12 @@
 import 'dart:async';
-import 'dart:io';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
-import 'package:franc_third_party_integration_demo/home_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'home_screen.dart';
 
 class WebViewApp extends StatefulWidget {
   final String url;
@@ -14,9 +18,37 @@ class WebViewApp extends StatefulWidget {
 }
 
 class _WebViewAppState extends State<WebViewApp> {
+  @override
+  void initState() {
+    // ignore: undefined_prefixed_name
+    ui.platformViewRegistry.registerViewFactory(
+        'hello-world-html',
+        (int viewId) => html.IFrameElement()
+          ..width = '640'
+          ..height = '360'
+          ..src = widget.url
+          ..style.border = 'none'
+          ..onLoad.listen((event) {
+            html.window.onMessage.forEach((element) {
+              print('Event Received in callback: ${element.data}');
+              if(element.data=='CLOSED'){
+                print('wooot');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              }else if(element.data=='SUCCESS'){
+                print('PAYMENT SUCCESSFULL!!!!!!!');
+              }
+            });
+          }));
+    super.initState();
+  }
+
   var url = "";
   final Completer<WebViewController> _webviewController =
       Completer<WebViewController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,26 +56,6 @@ class _WebViewAppState extends State<WebViewApp> {
             title: const Text("Franc Third Party Integration Demo"),
             centerTitle: true,
             automaticallyImplyLeading: false),
-        body: WebView(
-          initialUrl: widget.url,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webviewController) {
-            _webviewController.complete(webviewController);
-          },
-          onPageFinished: (String url) {
-            setState(
-              () {
-                this.url = url.toString();
-              },
-            );
-
-            if (url.contains("https://test.franc-partner-integration.pages.dev/blank")) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
-              );
-            }
-          },
-        ));
+        body: const HtmlElementView(viewType: 'hello-world-html'));
   }
 }
