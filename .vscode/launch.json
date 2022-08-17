@@ -13,7 +13,8 @@
               "-d",
               "chrome",
               "--web-renderer",
-              "html"
+              "html",
+              "--no-sound-null-safety"
             ]
         },
         {

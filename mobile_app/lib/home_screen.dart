@@ -51,12 +51,13 @@ class HomeScreen extends StatelessWidget {
                       backgroundColor: Colors.white,
                       textStyle: const TextStyle(fontSize: 20),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      var url = await ApiService.getBreakoutURL();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WebViewApp(
-                                "https://test.partners-ui.franc.app/deposit")),
+                                url)),
                       );
                     },
                     child: const Text('DEPOSIT'),
