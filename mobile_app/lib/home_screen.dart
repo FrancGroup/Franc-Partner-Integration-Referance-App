@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:franc_third_party_integration_demo/web_view_app_screen.dart';
+import 'package:franc_third_party_integration_demo/services/api_service.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -32,12 +33,13 @@ class HomeScreen extends StatelessWidget {
                       backgroundColor: Colors.white,
                       textStyle: const TextStyle(fontSize: 20),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      var url = await ApiService.getBreakoutURL();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WebViewApp(
-                                "https://partners-ui.franc.app/register")),
+                                url)),
                       );
                     },
                     child: const Text('REGISTER'),
@@ -49,12 +51,13 @@ class HomeScreen extends StatelessWidget {
                       backgroundColor: Colors.white,
                       textStyle: const TextStyle(fontSize: 20),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      var url = await ApiService.getBreakoutURL();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WebViewApp(
-                                "https://test.partners-ui.franc.app/deposit")),
+                                url)),
                       );
                     },
                     child: const Text('DEPOSIT'),
