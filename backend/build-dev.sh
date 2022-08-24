@@ -7,4 +7,4 @@ aws ecr get-login-password --region eu-west-1 | docker login --username AWS --pa
 docker tag partner:"dev" 686596544118.dkr.ecr.eu-west-1.amazonaws.com/partner:"dev"
 docker push 686596544118.dkr.ecr.eu-west-1.amazonaws.com/partner:"dev"
 
-aws ecs update-service --cluster staging --service partner-api-dev --force-new-deployment | tee
+aws ecs update-service --cluster franc-prod --service partner-api --force-new-deployment | tee

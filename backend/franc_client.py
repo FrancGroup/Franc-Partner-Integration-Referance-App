@@ -22,9 +22,5 @@ def get_token():
 
 def get_breakout_url():
     token = get_token()
-    response = requests.post(base_url+"/ui/get-breakout-url", headers={"Authorization": f"Bearer {token}"}, json={})
-    response.json()["url"]
-    return ("http://localhost:3000"+response.json()["url"][response.json()["url"].index("/register")::])
-
-print(get_breakout_url())
-
+    response = requests.post(base_url + "/ui/get-breakout-url", headers={"Authorization": f"Bearer {token}"}, json={})
+    return response.json()["url"]

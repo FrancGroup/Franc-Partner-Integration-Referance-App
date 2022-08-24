@@ -1,5 +1,5 @@
-# docker build . --tag=franc-python-base:2021-09-25
-FROM python:3.10-bullseye
+# docker build . --tag=franc-partner-integration-refereance-app-backend:2022-08-24
+FROM --platform=linux/amd64 python:3.10-bullseye
 
 # System dependencies
 RUN apt-get update

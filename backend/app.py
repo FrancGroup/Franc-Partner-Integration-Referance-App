@@ -9,12 +9,12 @@ from model import db, User
 
 app = Flask(__name__)
 
-db_user = os.getenv("db_user", "admin")
-db_password = os.getenv("db_password", "password_goes_here")
+db_user = os.getenv("db_user", "partner-admin")
+db_password = os.getenv("db_password", "replace_me")
 db_host = os.getenv(
-    "db_host", "hermes-test.cwdnxypztejb.eu-west-1.rds.amazonaws.com"
+    "db_host", "heremes-prod-1.cwdnxypztejb.eu-west-1.rds.amazonaws.com"
 )
-db_name = os.getenv("db_name", "franc-referance-test")
+db_name = os.getenv("db_name", "partner-test-db")
 
 # This assumes you are using a mariadb see: https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/
 app.config[
@@ -30,6 +30,13 @@ app.config[
 app.config.from_mapping(
     SECRET_KEY=os.getenv("SECRET_KEY", "replace-secret-key"),
 )
+db.init_app(app)
+
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 
 JWT_SCT = os.getenv("JWT_SCT", "secret")
 JWT_ALG = os.getenv("JWT_ALG", "HS256")
@@ -40,12 +47,12 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 
-@app.route("/login")
+@app.route("/login", methods=["POST"])
 def login():
     data = request.json
     username = data["username"]
     password = data["password"]
-    user = db.session.query(User).filter_by(username=username).one()
+    user = db.session.query(User).filter_by(username=username).one_or_none()
     if user is not None:
         if check_password_hash(user.password, password):
             payload = {
@@ -53,23 +60,23 @@ def login():
             }
             token = jwt.encode(payload, JWT_SCT, JWT_ALG)
             return jsonify({
-                token: token
+                'token': token
             })
     else:
         return jsonify({
             "message": "failed to login"
-        }, 401)
+        }), 401
 
 
-@app.route("/register")
+@app.route("/register", methods=["POST"])
 def register():
     data = request.json
     username = data["username"]
-    user = db.session.query(User).filter_by(username=username).one()
+    user = db.session.query(User).filter_by(username=username).one_or_none()
     if user is not None:
         return jsonify({
             "message": "user already exists"
-        }, 409)
+        }), 409
     password = data["password"]
     password_hash = generate_password_hash(password)
     new_user = User()
@@ -79,7 +86,7 @@ def register():
     db.session.commit()
     return jsonify({
         "message": "success"
-    }, 200)
+    }), 200
 
 
 @app.route("/getBreakoutURL", methods = ["GET"])
