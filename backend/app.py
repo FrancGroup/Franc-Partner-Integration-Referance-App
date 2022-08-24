@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, request, jsonify
+import franc_client
 from jose import jwt
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -81,11 +82,9 @@ def register():
     }, 200)
 
 
-@app.route("/getBreakoutURL")
+@app.route("/getBreakoutURL", methods = ["GET"])
 def get_breakout_url():
-    data = request.json
-    payload = jwt.decode(data["token"], JWT_SCT, JWT_ALG)
-    return jsonify({"url": "https://"})
+    return jsonify({"url": franc_client.get_breakout_url()})
 
 
 @app.route("/register_callback")
