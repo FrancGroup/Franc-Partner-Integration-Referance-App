@@ -20,7 +20,8 @@ def get_token():
     return response.json()["access_token"]
 
 
-def get_breakout_url():
+def get_breakout_url(user_id: str, redirect_url: str):
     token = get_token()
-    response = requests.post(base_url + "/ui/get-breakout-url", headers={"Authorization": f"Bearer {token}"}, json={})
+    response = requests.post(base_url + f"/ui/get-breakout-url?external_user_id={user_id}&redirect_url={redirect_url}",
+                             headers={"Authorization": f"Bearer {token}"}, json={})
     return response.json()["url"]

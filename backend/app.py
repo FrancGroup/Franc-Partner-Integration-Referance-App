@@ -1,10 +1,11 @@
 import os
 
 from flask import Flask, request, jsonify
-import franc_client
+from flask_cors import CORS
 from jose import jwt
 from werkzeug.security import check_password_hash, generate_password_hash
 
+import franc_client
 from model import db, User
 
 app = Flask(__name__)
@@ -29,6 +30,17 @@ app.config[
 
 app.config.from_mapping(
     SECRET_KEY=os.getenv("SECRET_KEY", "replace-secret-key"),
+)
+
+CORS(
+    app,
+    origins=[
+        "http://localhost:3000",
+        "https://staging.franc.app",
+        "https://franc.app",
+        "https://*.pages.dev",
+        "*",
+    ],
 )
 db.init_app(app)
 
@@ -62,10 +74,9 @@ def login():
             return jsonify({
                 'token': token
             })
-    else:
-        return jsonify({
-            "message": "failed to login"
-        }), 401
+    return jsonify({
+        "message": "failed to login"
+    }), 401
 
 
 @app.route("/register", methods=["POST"])
@@ -89,9 +100,13 @@ def register():
     }), 200
 
 
-@app.route("/getBreakoutURL", methods = ["GET"])
+@app.route("/getBreakoutURL", methods=["POST"])
 def get_breakout_url():
-    return jsonify({"url": franc_client.get_breakout_url()})
+    data = request.json
+    token = data["token"]
+    payload = jwt.decode(token, JWT_SCT, JWT_ALG)
+    url = franc_client.get_breakout_url(payload['id'], "https://www.franc.app")
+    return jsonify({"url": url})
 
 
 @app.route("/register_callback")

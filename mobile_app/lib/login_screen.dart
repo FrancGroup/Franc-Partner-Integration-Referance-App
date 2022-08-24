@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:franc_third_party_integration_demo/home_screen.dart';
 import 'package:franc_third_party_integration_demo/registration_screen.dart';
+import 'package:franc_third_party_integration_demo/services/api_service.dart';
+import 'package:franc_third_party_integration_demo/web_view_app_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -66,12 +67,18 @@ class LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ElevatedButton(
                     child: const Text('Login'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()),
-                      );
+                    onPressed: () async {
+                      var response = await ApiService.login(
+                          usernameController.value.text,
+                          passwordController.value.text);
+                      if (response != "") {
+                        var url = await ApiService.getBreakoutURL(response);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WebViewApp(url)),
+                        );
+                      }
                     },
                   )),
               SizedBox(
