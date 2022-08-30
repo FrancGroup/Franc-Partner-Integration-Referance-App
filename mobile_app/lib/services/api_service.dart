@@ -23,6 +23,19 @@ class ApiService {
     return "";
   }
 
+  static Future<String> register(String username, String password) async {
+    var client = http.Client();
+    var body = jsonEncode(
+        <String, dynamic>{'username': username, 'password': password});
+    var response = await client.post(Uri.parse(url + '/register'),
+        body: body, headers: apiHeaders);
+    if (response.statusCode == 201) {
+      var responseBody = json.decode(response.body);
+      return responseBody['token'];
+    }
+    return "";
+  }
+
   static Future<String> getBreakoutURL(String token) async {
     var client = http.Client();
 
