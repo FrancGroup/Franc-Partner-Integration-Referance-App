@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:franc_third_party_integration_demo/login_screen.dart';
+import 'package:franc_third_party_integration_demo/services/api_service.dart';
+import 'package:franc_third_party_integration_demo/web_view_app_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -79,10 +81,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  void handleRegister() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
+  void handleRegister() async {
+    var response = await ApiService.register(
+        usernameController.value.text,
+        passwordController.value.text);
+    if (response != "") {
+      var url = await ApiService.getBreakoutURL(response);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => WebViewApp(url)),
+      );
+    }
   }
 }

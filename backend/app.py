@@ -95,9 +95,14 @@ def register():
     new_user.password = password_hash
     db.session.add(new_user)
     db.session.commit()
+    payload = {
+        "id": new_user.id
+    }
+    token = jwt.encode(payload, JWT_SCT, JWT_ALG)
     return jsonify({
-        "message": "success"
-    }), 200
+        "message": "success",
+        "token": token
+    }), 201
 
 
 @app.route("/getBreakoutURL", methods=["POST"])
