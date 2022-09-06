@@ -11,7 +11,7 @@ from model import db, User
 app = Flask(__name__)
 
 db_user = os.getenv("db_user", "partner-admin")
-db_password = os.getenv("db_password", "replace_me")
+db_password = os.getenv("db_password", "7amQeJxdkU6avRNiZyBL")
 db_host = os.getenv(
     "db_host", "heremes-prod-1.cwdnxypztejb.eu-west-1.rds.amazonaws.com"
 )
