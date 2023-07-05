@@ -12,7 +12,7 @@ base_url = "https://test.partners.franc.app"
 def get_token():
     session = requests.Session()
     session.auth = (client_id, client_secret)
-    response = session.post("https://test.partners.franc.app/oauth2/token", data={
+    response = session.post(base_url + "/oauth2/token", data={
         "grant_type": "password",
         "username": username,
         "password": password
@@ -22,6 +22,6 @@ def get_token():
 
 def get_breakout_url(user_id: str, redirect_url: str):
     token = get_token()
-    response = requests.post(base_url + f"/ui/get-breakout-url?external_user_id={user_id}&redirect_url={redirect_url}",
-                             headers={"Authorization": f"Bearer {token}"}, json={})
+    response = requests.get(base_url + f"/ui/get-breakout-url?external_user_id={user_id}&redirect_url={redirect_url}",
+                             headers={"Authorization": f"Bearer {token}"})
     return response.json()["url"]
